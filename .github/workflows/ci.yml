@@ -1,0 +1,24 @@
+name: Java CI Build
+
+on:
+  push:
+    branches: [ "main" ]  # 只有推送到 main 分支时才触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # 拉取代码
+
+      - name: Set up JDK 17  # 设置 Java 环境
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven  # 执行打包
+        run: mvn -B package --file pom.xml -DskipTests
+
+      - name: Check Artifact  # 确认打包成功
+        run: ls -l target/*.jar
