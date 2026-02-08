@@ -1,7 +1,7 @@
 # 镜像配置
 image:
   repository: registry.cn-shanghai.aliyuncs.com/learn-course/demo
-  tag: latest # 以后 CI 会把这里改为具体的 Git Commit ID
+  tag: 148ed9050a1e25ba4f24729dbcd53a8c2e281923
   pullPolicy: Always
 
 # 副本数
