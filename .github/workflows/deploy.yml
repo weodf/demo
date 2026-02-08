@@ -24,11 +24,11 @@ jobs:
           docker push registry.cn-shanghai.aliyuncs.com/learn-course/demo:${IMAGE_TAG}
 
       # 3. 核心 GitOps 步骤：修改 values.yaml 里的 tag 并推回仓库
-      - name: Update Helm Tag
-        run: |
-          sed -i "s/tag: .*/tag: ${{ github.sha }}/g" charts/demo/values.yml
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          git add charts/demo/values.yml
-          git commit -m "chore: update image tag to ${{ github.sha }}"
-          git push
+#      - name: Update Helm Tag
+#        run: |
+#          sed -i "s/tag: .*/tag: ${{ github.sha }}/g" charts/demo/values.yml
+#          git config --global user.name "GitHub Action"
+#          git config --global user.email "action@github.com"
+#          git add charts/demo/values.yml
+#          git commit -m "chore: update image tag to ${{ github.sha }}"
+#          git push
