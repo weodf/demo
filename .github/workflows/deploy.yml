@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches: [ main ] # 监听 main 分支的推送
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # 1. 登录阿里云仓库
+      - name: Login to Aliyun
+        run: docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-shanghai.aliyuncs.com
+
+      # 2. 构建并推送镜像 (以 Git Commit SHA 为 Tag)
+      - name: Build and Push
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t registry.cn-shanghai.aliyuncs.com/learn-course/demo:${IMAGE_TAG} .
+          docker push registry.cn-shanghai.aliyuncs.com/learn-course/demo:${IMAGE_TAG}
+
+      # 3. 核心 GitOps 步骤：修改 values.yaml 里的 tag 并推回仓库
+      - name: Update Helm Tag
+        run: |
+          sed -i "s/tag: .*/tag: ${{ github.sha }}/g" charts/demo-app/values.yaml
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add charts/demo-app/values.yaml
+          git commit -m "chore: update image tag to ${{ github.sha }}"
+          git push

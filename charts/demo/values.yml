@@ -1,0 +1,19 @@
+# 镜像配置
+image:
+  repository: registry.cn-shanghai.aliyuncs.com/learn-course/demo
+  tag: latest # 以后 CI 会把这里改为具体的 Git Commit ID
+  pullPolicy: Always
+
+# 副本数
+replicaCount: 1
+
+# 服务配置
+service:
+  type: NodePort
+  port: 8080        # 容器内端口
+  targetPort: 8080  # 映射端口
+  nodePort: 30080   # 宿主机访问端口
+
+# 凭证配置
+imagePullSecrets:
+  - name: aliyun-registry
