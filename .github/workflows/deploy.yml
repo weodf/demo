@@ -26,6 +26,6 @@ jobs:
           sed -i "s/tag: .*/tag: ${{ github.sha }}/g" charts/demo/values.yml
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add charts/demo/values.yaml
+          git add charts/demo/values.yml
           git commit -m "chore: update image tag to ${{ github.sha }}"
           git push
